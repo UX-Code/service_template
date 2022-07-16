@@ -1,0 +1,2 @@
+export { PaisesDaoImpl } from './paisesDaoImpl';
+ 

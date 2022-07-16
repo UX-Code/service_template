@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+"use strict";
+
+const api = require("../dist/api");
+const mainConfig = require("../dist/config/main.config").MAINCONFIG;
+const debug = require("debug")("express:server");
+const http = require("http");
+let httpPort;
+
+console.log(`Configurando el servidor del ambiente ${process.env.NODE_ENV}`);
+switch (process.env.NODE_ENV) {
+    case mainConfig.dev_env:
+        httpPort = mainConfig.dev_port;
+        break;
+    case mainConfig.prod_env:
+        httpPort = mainConfig.prod_port;
+        break;
+    default:
+        throw new Error("Esta tratanto de levantar un servidor para un ambiente no configurado");
+};
+
+httpPort = normalizePort(httpPort);
+const geo = api.Geo.bootstrap();
+
+geo.set("port", httpPort);
+const httpServer = http.createServer(geo);
+
+httpServer.listen(httpPort);
+console.log(`Inicializando el servicio en el ambiente ${process.env.NODE_ENV} exponiendo en el puerto ${httpPort}`);
+
+
+
+geo.enable('trust proxy');
+httpServer.on("error", onError);
+httpServer.on("listening", onListening);
+
+function normalizePort(val) {
+    let port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        return val;
+    }
+
+    if (port >= 0) {
+        return port;
+    }
+
+    return false;
+}
+
+function onError(error) {
+    if (error.syscall !== "listen") {
+        throw error;
+    }
+
+    var bind = typeof port === "string"
+        ? "Pipe " + port
+        : "Port " + port;
+
+    switch (error.code) {
+        case "EACCES":
+            console.error(bind + "Requiere permisos de administrador para acceder a esta opción");
+            process.exit(1);
+            break;
+        case "EADDRINUSE":
+            console.error(bind + "ya se encuentra en uso");
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+function onListening() {
+    let addr = httpServer.address();
+    let bind = typeof addr === "string"
+        ? "pipe " + addr
+        : "port " + addr.port;
+    debug("Escuchando en " + bind);
+}
+

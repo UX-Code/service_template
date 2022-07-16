@@ -1,0 +1,61 @@
+{
+  "name": "ms-geo",
+  "version": "1.0.0",
+  "description": "Este microservicio expondra todo lo relacionado con georeferencias, ciudades, paises, departamentos, ubicaciones etc.",
+  "main": "dist/api.js",
+  "scripts": {
+    "compile": "rm -rf dist && rm -rf logs && mkdir logs && grunt && pm2 delete myservices && npm run start && pm2 logs myservices",
+    "start": "NODE_ENV=desarrollo  pm2 start --name myservices -l  logs/stdboth.log -o logs/stdout.log -e logs/stderror.log ./bin/www"
+  },
+  "author": "Guille Valencia",
+  "contributors": [
+    {
+      "name": "Guille Valencia",
+      "email": "guille@gmail.com"
+    }
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "body-parser": "^1.19.2",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.3",
+    "forever": "^4.0.3",
+    "helmet": "^5.0.2",
+    "inversify": "^6.0.1",
+    "method-override": "^3.0.0",
+    "moment-timezone": "^0.5.34",
+    "morgan": "^1.10.0",
+    "mssql": "^8.0.2",
+    "mysql": "^2.18.1",
+    "npm": "^8.5.5",
+    "reflect-metadata": "^0.1.13",
+    "to": "^0.2.9",
+    "tsc": "^2.0.4",
+    "update": "^0.7.4"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/errorhandler": "1.5.0",
+    "@types/express": "^4.17.13",
+    "@types/helmet": "0.0.48",
+    "@types/method-override": "0.0.32",
+    "@types/morgan": "^1.9.3",
+    "@types/mssql": "^7.1.5",
+    "@types/node": "^17.0.23",
+    "grunt": "^1.4.1",
+    "grunt-cli": "^1.4.3",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-strip-code": "^1.0.9",
+    "grunt-ts": "^6.0.0-beta.22",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.6.3"
+  }
+}
